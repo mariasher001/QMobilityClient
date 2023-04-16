@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clientLoginButton"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2d384a"
+    tools:context=".ClientLoginActivity">
+
+    <TextView
+        android:id="@+id/ClientLoginHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/qmobility"
+        android:textColor="#FF6E40"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ClientLoginSmallHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/smart_queue_system"
+        android:textColor="#FF6E40"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/ClientLoginHeaderTextView"
+        app:layout_constraintStart_toStartOf="@+id/ClientLoginHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ClientLoginHeaderTextView" />
+
+    <RelativeLayout
+        android:id="@+id/clientLoginRelativeLayout"
+        android:layout_width="280dp"
+        android:layout_height="504dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_left_panel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ClientLoginSmallHeaderTextView">
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clientLoginPanel"
+        android:layout_width="400dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/shape_login_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/clientLoginRelativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/ClientLoginSmallHeaderTextView">
+
+        <EditText
+            android:id="@+id/clientLoginEmailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/clientLoginPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textColor="@color/white"
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clientLoginEmailEditText"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/clientLoginForgotPasswordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
+            android:gravity="end"
+            android:onClick="clientLoginForgotPasswordTextViewClicked"
+            android:text="@string/forgot_password"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clientLoginPasswordEditText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edit_text_corners"
+        android:onClick="clientLoginButtonClicked"
+        android:text="@string/login"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/clientLoginPanel"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/clientLoginTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="70dp"
+        android:minHeight="48dp"
+        android:onClick="clientLoginTextViewClicked"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/clientLoginPanel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ClientLoginSmallHeaderTextView" />
+
+    <TextView
+        android:id="@+id/clientSignUpTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:minHeight="48dp"
+        android:onClick="clientSignUpTextViewClicked"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/clientLoginTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/clientLoginTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
