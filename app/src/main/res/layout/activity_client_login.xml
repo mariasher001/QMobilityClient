@@ -35,7 +35,7 @@
 
     <RelativeLayout
         android:id="@+id/clientLoginRelativeLayout"
-        android:layout_width="280dp"
+        android:layout_width="260dp"
         android:layout_height="504dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_left_panel"
@@ -118,7 +118,6 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="70dp"
         android:minHeight="48dp"
-        android:onClick="clientLoginTextViewClicked"
         android:text="Login"
         android:textColor="@color/white"
         android:textSize="24sp"

@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(Bundle savedInstanceState) {
         Intent intent = new Intent(this, ClientLoginActivity.class);
-        startActivity(intent);
 
         Runnable runnable = () -> {
             startActivity(intent);
