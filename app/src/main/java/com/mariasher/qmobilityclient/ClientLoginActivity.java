@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mariasher.qmobilityclient.clientActivities.ClientBusinessViewActivity;
 import com.mariasher.qmobilityclient.databinding.ActivityClientLoginBinding;
 
 public class ClientLoginActivity extends AppCompatActivity {
@@ -33,10 +34,9 @@ public class ClientLoginActivity extends AppCompatActivity {
         mReal = FirebaseDatabase.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
-            //TODO
-//            Intent intent = new Intent(this, ClientPortalActivity.class);
-//            startActivity(intent);
-//            finish();
+            Intent intent = new Intent(this, ClientBusinessViewActivity.class);
+            startActivity(intent);
+            finish();
         }
 
     }

@@ -1,9 +1,12 @@
 package com.mariasher.qmobilityclient;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -47,9 +50,12 @@ public class RegisterClientActivity extends AppCompatActivity {
         String clientPassword = binding.registerClientPasswordEditText.getText().toString();
         String clientPhoneNumber = binding.registerClientPhoneNumberEditText.getText().toString();
         if (checkClientRegistrationInformation(clientUserName, clientEmail, clientPassword, clientPhoneNumber)) {
+            Log.d(TAG, "setClientDetails: Hi i am here");
             Client client = new Client("", clientUserName, clientEmail, clientPhoneNumber);
             createClientInFireBaseAuth(client, clientPassword);
         }
+
+
 
     }
 
@@ -75,20 +81,18 @@ public class RegisterClientActivity extends AppCompatActivity {
     }
 
     private boolean checkClientRegistrationInformation(String clientUserName, String clientEmail, String clientPassword, String clientPhoneNumber) {
-
         if (clientUserName.isEmpty())
-            setError(binding.registerClientEmailEditText, "UserName cannot be empty");
+            return setError(binding.registerClientUserNameEditText, "UserName cannot be empty");
         if (clientEmail.isEmpty())
-            setError(binding.registerClientEmailEditText, "Email Is Required!");
+            return setError(binding.registerClientEmailEditText, "Email Is Required!");
         if (!Patterns.EMAIL_ADDRESS.matcher(clientEmail).matches())
-            setError(binding.registerClientEmailEditText, "Enter correct email!");
+            return setError(binding.registerClientEmailEditText, "Enter correct email!");
         if (clientPassword.isEmpty())
-            setError(binding.registerClientPasswordEditText, "Password Is Required!");
+            return setError(binding.registerClientPasswordEditText, "Password Is Required!");
         if (clientPassword.length() < 6)
-            setError(binding.registerClientPasswordEditText, "Password cannot be less than 6 characters!");
+            return setError(binding.registerClientPasswordEditText, "Password cannot be less than 6 characters!");
         if (clientPhoneNumber.isEmpty())
-            setError(binding.registerClientPhoneNumberEditText, "PhoneNumber is Required!");
-
+            return setError(binding.registerClientPhoneNumberEditText, "PhoneNumber is Required!");
         return true;
     }
 
