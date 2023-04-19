@@ -4,9 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2d384a"
+    android:background="@drawable/gradient_background"
     tools:context=".clientActivities.ClientBusinessViewActivity">
 
+    <TextView
+        android:id="@+id/qMobilityClientBusinessViewHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="QMobility"
+        android:textColor="#FF6E40"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/findYourBusinessHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find You Business"
+        android:textColor="#FF6E40"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/qMobilityClientBusinessViewHeaderTextView"
+        app:layout_constraintStart_toStartOf="@+id/qMobilityClientBusinessViewHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/qMobilityClientBusinessViewHeaderTextView" />
+
+    <SearchView
+        android:id="@+id/viewBusinessesClientBusinessViewSearchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/edit_text_corners"
+        android:foregroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findYourBusinessHeaderTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/viewBusinessesRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewBusinessesClientBusinessViewSearchView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
