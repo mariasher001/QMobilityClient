@@ -9,6 +9,10 @@ public class Client {
     private String clientUserName;
     private String clientEmail;
     private String clientPhoneNumber;
+    //TODO: Implement these in constructor and set getters and setters.
+
+    private String clientStatus;
+    private String queueId;
 
     public Client(@NonNull String clientId, String clientUserName, String clientEmail, String clientPhoneNumber) {
         this.clientId = clientId;

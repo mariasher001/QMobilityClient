@@ -22,12 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(Bundle savedInstanceState) {
         Intent intent = new Intent(this, ClientLoginActivity.class);
-
         Runnable runnable = () -> {
             startActivity(intent);
             finish();
         };
 
-        binding.clientAppInitialScreenTextView.postDelayed(runnable, 2000);
+        binding.initialConstraintLayout.postDelayed(runnable, 2000);
     }
 }
