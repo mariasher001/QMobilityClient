@@ -18,8 +18,6 @@ public class ClientLoginActivity extends AppCompatActivity {
 
     private ActivityClientLoginBinding binding;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mReal;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +29,10 @@ public class ClientLoginActivity extends AppCompatActivity {
 
     private void init(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
-        mReal = FirebaseDatabase.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(this, ClientBusinessViewActivity.class);
-            startActivity(intent);
-            finish();
+            goToClientPortal();
         }
-
     }
 
     public void clientSignUpTextViewClicked(View view) {
@@ -53,23 +47,21 @@ public class ClientLoginActivity extends AppCompatActivity {
         if (checkLoginInformation(clientEmail, clientPassword)) {
             mAuth.signInWithEmailAndPassword(clientEmail, clientPassword)
                     .addOnCompleteListener(task -> {
-                        if (task.isSuccessful())
+                        if (task.isSuccessful()) {
                             Toast.makeText(this, "Login Successful!", Toast.LENGTH_LONG).show();
-                            // TODO:Change intent to Client Portal.
-
-                        else
+                            goToClientPortal();
+                        } else {
                             Toast.makeText(this, "Failed to Login. Try Again!!", Toast.LENGTH_LONG).show();
+                        }
                     });
         }
     }
 
     private boolean checkLoginInformation(String clientEmail, String clientPassword) {
-        if (clientEmail.isEmpty()) {
+        if (clientEmail.isEmpty())
             return setError(this.binding.clientLoginEmailEditText, "Email is Required!");
-        }
         if (!Patterns.EMAIL_ADDRESS.matcher(clientEmail).matches())
             setError(binding.clientLoginEmailEditText, "Enter correct email!");
-
         if (clientPassword.isEmpty())
             return setError(this.binding.clientLoginPasswordEditText, "Password is required!");
 
@@ -83,8 +75,12 @@ public class ClientLoginActivity extends AppCompatActivity {
     }
 
     public void clientLoginForgotPasswordTextViewClicked(View view) {
-
+        //TODO
     }
 
-
+    private void goToClientPortal() {
+        Intent intent = new Intent(this, ClientBusinessViewActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

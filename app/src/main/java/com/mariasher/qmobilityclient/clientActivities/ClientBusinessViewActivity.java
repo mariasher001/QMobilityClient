@@ -8,7 +8,8 @@ import com.mariasher.qmobilityclient.databinding.ActivityClientBusinessViewBindi
 
 public class ClientBusinessViewActivity extends AppCompatActivity {
 
-    ActivityClientBusinessViewBinding binding;
+    private ActivityClientBusinessViewBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +19,5 @@ public class ClientBusinessViewActivity extends AppCompatActivity {
     }
 
     private void init(Bundle savedInstanceState) {
-
-
     }
 }

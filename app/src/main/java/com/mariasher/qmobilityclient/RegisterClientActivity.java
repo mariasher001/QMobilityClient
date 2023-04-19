@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mariasher.qmobilityclient.Utils.Firebase.FirebaseRealTimeUtils;
+import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
 import com.mariasher.qmobilityclient.database.Client;
 import com.mariasher.qmobilityclient.databinding.ActivityRegisterClientBinding;
 
@@ -22,8 +22,7 @@ public class RegisterClientActivity extends AppCompatActivity {
     private ActivityRegisterClientBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mReal;
-
-    FirebaseRealTimeUtils firebaseRealTimeUtils = new FirebaseRealTimeUtils(this);
+    FirebaseRealTimeUtils firebaseRealTimeUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class RegisterClientActivity extends AppCompatActivity {
     private void init(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         mReal = FirebaseDatabase.getInstance();
-
+        firebaseRealTimeUtils = new FirebaseRealTimeUtils(this);
     }
 
     public void registerButtonClicked(View view) {
@@ -49,14 +48,11 @@ public class RegisterClientActivity extends AppCompatActivity {
         String clientEmail = binding.registerClientEmailEditText.getText().toString();
         String clientPassword = binding.registerClientPasswordEditText.getText().toString();
         String clientPhoneNumber = binding.registerClientPhoneNumberEditText.getText().toString();
+
         if (checkClientRegistrationInformation(clientUserName, clientEmail, clientPassword, clientPhoneNumber)) {
-            Log.d(TAG, "setClientDetails: Hi i am here");
             Client client = new Client("", clientUserName, clientEmail, clientPhoneNumber);
             createClientInFireBaseAuth(client, clientPassword);
         }
-
-
-
     }
 
     private void createClientInFireBaseAuth(Client client, String clientPassword) {
@@ -65,18 +61,16 @@ public class RegisterClientActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         String clientId = mAuth.getCurrentUser().getUid();
                         client.setClientId(clientId);
-                        firebaseRealTimeUtils.registerClientInFireBaseDatabase(client, result -> {
-                            if (result) {
+                        firebaseRealTimeUtils.updateClientDetailsInFirebase(client, isClientRegistered -> {
+                            if (isClientRegistered) {
                                 Toast.makeText(this, "User Registered Successfully!", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(this, ClientLoginActivity.class);
-                                startActivity(intent);
-                                finish();
                                 mAuth.signOut();
+                                goToLogin();
                             }
                         });
-
-                    } else
+                    } else {
                         Toast.makeText(this, "Failed To register User! Try Again!", Toast.LENGTH_LONG).show();
+                    }
                 });
     }
 
@@ -103,9 +97,12 @@ public class RegisterClientActivity extends AppCompatActivity {
     }
 
     public void registerClientLoginTextViewClicked(View view) {
+        goToLogin();
+    }
+
+    private void goToLogin() {
         Intent intent = new Intent(this, ClientLoginActivity.class);
         startActivity(intent);
         finish();
-
     }
 }

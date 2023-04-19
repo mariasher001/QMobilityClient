@@ -16,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init(savedInstanceState);
-
-
     }
 
     private void init(Bundle savedInstanceState) {

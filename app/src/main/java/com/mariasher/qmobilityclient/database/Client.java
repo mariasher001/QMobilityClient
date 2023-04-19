@@ -2,6 +2,8 @@ package com.mariasher.qmobilityclient.database;
 
 import androidx.annotation.NonNull;
 
+import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
+
 public class Client {
 
     @NonNull
@@ -9,16 +11,28 @@ public class Client {
     private String clientUserName;
     private String clientEmail;
     private String clientPhoneNumber;
-    //TODO: Implement these in constructor and set getters and setters.
-
     private String clientStatus;
     private String queueId;
+
+    public Client() {
+    }
 
     public Client(@NonNull String clientId, String clientUserName, String clientEmail, String clientPhoneNumber) {
         this.clientId = clientId;
         this.clientUserName = clientUserName;
         this.clientEmail = clientEmail;
         this.clientPhoneNumber = clientPhoneNumber;
+        this.clientStatus = ClientStatus.DEQUEUED.toString();
+        this.queueId = "";
+    }
+
+    public Client(@NonNull String clientId, String clientUserName, String clientEmail, String clientPhoneNumber, String clientStatus, String queueId) {
+        this.clientId = clientId;
+        this.clientUserName = clientUserName;
+        this.clientEmail = clientEmail;
+        this.clientPhoneNumber = clientPhoneNumber;
+        this.clientStatus = clientStatus;
+        this.queueId = queueId;
     }
 
     public String getClientId() {
@@ -51,5 +65,21 @@ public class Client {
 
     public void setClientPhoneNumber(String clientPhoneNumber) {
         this.clientPhoneNumber = clientPhoneNumber;
+    }
+
+    public String getClientStatus() {
+        return clientStatus;
+    }
+
+    public void setClientStatus(String clientStatus) {
+        this.clientStatus = clientStatus;
+    }
+
+    public String getQueueId() {
+        return queueId;
+    }
+
+    public void setQueueId(String queueId) {
+        this.queueId = queueId;
     }
 }
