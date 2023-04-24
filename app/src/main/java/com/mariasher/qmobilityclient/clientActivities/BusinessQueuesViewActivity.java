@@ -1,41 +1,53 @@
 package com.mariasher.qmobilityclient.clientActivities;
 
+import static com.mariasher.qmobilityclient.Utils.Adapters.ClientBusinessViewAdapter.BUSINESS_ID;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.mariasher.qmobilityclient.ClientLoginActivity;
 import com.mariasher.qmobilityclient.R;
-import com.mariasher.qmobilityclient.Utils.Adapters.ClientBusinessViewAdapter;
+import com.mariasher.qmobilityclient.Utils.Adapters.BusinessQueuesViewAdapter;
 import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
-import com.mariasher.qmobilityclient.databinding.ActivityClientBusinessViewBinding;
+import com.mariasher.qmobilityclient.database.BusinessInfo;
+import com.mariasher.qmobilityclient.databinding.ActivityBusinessQueuesViewBinding;
 
-public class ClientBusinessViewActivity extends AppCompatActivity {
+public class BusinessQueuesViewActivity extends AppCompatActivity {
 
-    private ActivityClientBusinessViewBinding binding;
+    private ActivityBusinessQueuesViewBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseRealTimeUtils firebaseRealTimeUtils;
+    private String businessID;
+    private BusinessInfo businessInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityClientBusinessViewBinding.inflate(getLayoutInflater());
+        binding = ActivityBusinessQueuesViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init(savedInstanceState);
     }
 
     private void init(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        businessID = intent.getStringExtra(BUSINESS_ID);
+
         mAuth = FirebaseAuth.getInstance();
         firebaseRealTimeUtils = new FirebaseRealTimeUtils(this);
 
-        firebaseRealTimeUtils.getAllBusinesses(businesses -> {
-            //TODO sort businesses by location
-            binding.viewBusinessesRecyclerView.setAdapter(new ClientBusinessViewAdapter(businesses, this));
+        firebaseRealTimeUtils.getBusinessInfo(businessID, businessInfo -> {
+            this.businessInfo = businessInfo;
+            binding.businessNameQueueViewHeaderTextView.setText(businessInfo.getBusinessName());
+        });
+
+        firebaseRealTimeUtils.getQueuesFromBusiness(businessID, businessQueues -> {
+            binding.viewBusinessQueuesRecyclerView.setAdapter(new BusinessQueuesViewAdapter(businessQueues, businessID, this));
         });
     }
 

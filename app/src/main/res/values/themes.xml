@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.QMobilityClient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#202732</item>
+        <item name="colorPrimary">#FF6E40</item>
         <item name="colorPrimaryVariant">#FF6E40</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
