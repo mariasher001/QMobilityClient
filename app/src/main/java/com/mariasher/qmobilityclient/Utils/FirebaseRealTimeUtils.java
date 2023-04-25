@@ -174,4 +174,89 @@ public class FirebaseRealTimeUtils {
 
         return queue;
     }
+
+    public void getClientsInQueue(Map<String, Object> clientsInQueue, Callback<List<Client>> callback) {
+        List<Client> clients = new ArrayList<>();
+
+        if (clientsInQueue.isEmpty()) {
+            callback.onSuccess(clients);
+            return;
+        }
+
+        mReal.getReference("QMobility")
+                .child("Clients")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot clientSnapshot : snapshot.getChildren()) {
+                            if (clientsInQueue.containsKey(clientSnapshot.getKey())) {
+                                Client client = getClientFields(clientSnapshot);
+                                clients.add(client);
+                            }
+                        }
+                        callback.onSuccess(clients);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    public void getClientDetails(String clientId, Callback<Client> callback) {
+        mReal.getReference("QMobility")
+                .child("Clients")
+                .child(clientId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Client client = getClientFields(snapshot);
+                        callback.onSuccess(client);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private Client getClientFields(DataSnapshot snapshot) {
+        String clientId = snapshot.child("clientId").getValue(String.class);
+        String clientName = snapshot.child("clientName").getValue(String.class);
+        String clientEmail = snapshot.child("clientEmail").getValue(String.class);
+        String clientPhoneNumber = snapshot.child("clientPhoneNumber").getValue(String.class);
+        String clientStatus = snapshot.child("clientStatus").getValue(String.class);
+        String businessId = snapshot.child("businessId").getValue(String.class);
+        String queueId = snapshot.child("queueId").getValue(String.class);
+        int assignedNumberInQueue = snapshot.child("assignedNumberInQueue").getValue(Integer.class);
+        String queueEntryTime = snapshot.child("queueEntryTime").getValue(String.class);
+        String queueExitTime = snapshot.child("queueExitTime").getValue(String.class);
+
+        return new Client(clientId, clientName, clientEmail, clientPhoneNumber, clientStatus,
+                businessId, queueId, assignedNumberInQueue, queueEntryTime, queueExitTime);
+    }
+
+    public void updateClient(Client client, Callback<Boolean> callback) {
+        mReal.getReference("QMobility")
+                .child("Clients")
+                .child(client.getClientId())
+                .setValue(client)
+                .addOnCompleteListener(task -> {
+                    callback.onSuccess(task.isSuccessful());
+                });
+    }
+
+    public void updateQueue(String businessID, Queue queue, Callback<Boolean> callback) {
+        mReal.getReference("QMobility")
+                .child("Businesses")
+                .child(businessID)
+                .child("Queues")
+                .child(queue.getQueueId())
+                .setValue(queue)
+                .addOnCompleteListener(task -> {
+                    callback.onSuccess(task.isSuccessful());
+                });
+    }
 }
