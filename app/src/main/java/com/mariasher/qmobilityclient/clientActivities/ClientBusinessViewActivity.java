@@ -1,5 +1,9 @@
 package com.mariasher.qmobilityclient.clientActivities;
 
+import static com.mariasher.qmobilityclient.Utils.Adapters.BusinessQueuesViewAdapter.QUEUE_ID;
+import static com.mariasher.qmobilityclient.Utils.Adapters.ClientBusinessViewAdapter.BUSINESS_ID;
+import static com.mariasher.qmobilityclient.clientActivities.ViewQueueDetailsAndEnterActivity.CLIENT_ID;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.mariasher.qmobilityclient.ClientLoginActivity;
 import com.mariasher.qmobilityclient.R;
 import com.mariasher.qmobilityclient.Utils.Adapters.ClientBusinessViewAdapter;
+import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
 import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
+import com.mariasher.qmobilityclient.database.Client;
 import com.mariasher.qmobilityclient.databinding.ActivityClientBusinessViewBinding;
 
 public class ClientBusinessViewActivity extends AppCompatActivity {
@@ -33,10 +39,25 @@ public class ClientBusinessViewActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseRealTimeUtils = new FirebaseRealTimeUtils(this);
 
+        firebaseRealTimeUtils.getClientDetails(mAuth.getCurrentUser().getUid(), client -> {
+            if (!client.getClientStatus().equals(ClientStatus.DEQUEUED.toString())) {
+                goToClientQueued(client);
+            }
+        });
+
         firebaseRealTimeUtils.getAllBusinesses(businesses -> {
             //TODO sort businesses by location
             binding.viewBusinessesRecyclerView.setAdapter(new ClientBusinessViewAdapter(businesses, this));
         });
+    }
+
+    private void goToClientQueued(Client client) {
+        Intent intent = new Intent(this, ClientQueuedActivity.class);
+        intent.putExtra(BUSINESS_ID, client.getBusinessId());
+        intent.putExtra(QUEUE_ID, client.getQueueId());
+        intent.putExtra(CLIENT_ID, client.getClientId());
+        startActivity(intent);
+        finish();
     }
 
     @Override

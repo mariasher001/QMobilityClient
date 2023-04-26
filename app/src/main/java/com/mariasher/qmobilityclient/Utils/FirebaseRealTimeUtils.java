@@ -166,8 +166,8 @@ public class FirebaseRealTimeUtils {
         Map<String, Object> clientsInQueue = new HashMap<>();
         for (DataSnapshot queueCounterSnapshot : snapshot.child("clientsInQueue").getChildren()) {
             String clientId = queueCounterSnapshot.getKey();
-            String clientName = queueCounterSnapshot.getValue(String.class);
-            clientsInQueue.put(clientId, clientName);
+            String clientStatus = queueCounterSnapshot.getValue(String.class);
+            clientsInQueue.put(clientId, clientStatus);
         }
         Queue queue = new Queue(queueId, creatorId, queueName, queueStartTime, queueEndTime, queueStatus,
                 numberOfActiveCounters, averageCustomerTime, queueCounters, clientsInQueue);

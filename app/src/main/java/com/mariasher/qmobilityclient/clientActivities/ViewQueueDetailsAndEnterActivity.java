@@ -3,17 +3,14 @@ package com.mariasher.qmobilityclient.clientActivities;
 import static com.mariasher.qmobilityclient.Utils.Adapters.BusinessQueuesViewAdapter.QUEUE_ID;
 import static com.mariasher.qmobilityclient.Utils.Adapters.ClientBusinessViewAdapter.BUSINESS_ID;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.mariasher.qmobilityclient.R;
 import com.mariasher.qmobilityclient.Utils.DateTimeUtils;
 import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
 import com.mariasher.qmobilityclient.Utils.Enums.QueueStatus;
@@ -86,7 +83,8 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
                         .min(Comparator.comparingInt(Client::getAssignedNumberInQueue))
                         .get();
             }
-            binding.nextNumberOnCallDetailsTextView.setText("" + firstClient.getAssignedNumberInQueue());
+            int nextNumber = (firstClient != null ? firstClient.getAssignedNumberInQueue() : 1);
+            binding.nextNumberOnCallDetailsTextView.setText("" + nextNumber);
         });
     }
 
@@ -126,16 +124,17 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
                 });
 
                 Map<String, Object> clientsInQueue = queue.getClientsInQueue();
-                clientsInQueue.put(client.getClientId(), client.getClientName());
+                clientsInQueue.put(client.getClientId(), client.getClientStatus());
                 queue.setClientsInQueue(clientsInQueue);
                 firebaseRealTimeUtils.updateQueue(businessID, queue, isQueueUpdated -> {
                     if (isQueueUpdated) {
-                        //TODO goToClientQueuedActivity();
+                        goToClientQueuedActivity();
                     }
                 });
             }
         });
     }
+
     private void setClientDetails(Callback<Boolean> callback) {
         client.setBusinessId(businessID);
         client.setQueueId(queueId);
@@ -153,13 +152,13 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
         });
     }
 
-//    private void goToClientQueuedActivity() {
-//        Intent intent = new Intent(this, ClientQueuedActivity.class);
-//        intent.putExtra(BUSINESS_ID, businessID);
-//        intent.putExtra(QUEUE_ID, queueId);
-//        intent.putExtra(CLIENT_ID, clientId);
-//        startActivity(intent);
-//        finish();
-//    }
+    private void goToClientQueuedActivity() {
+        Intent intent = new Intent(this, ClientQueuedActivity.class);
+        intent.putExtra(BUSINESS_ID, businessID);
+        intent.putExtra(QUEUE_ID, queueId);
+        intent.putExtra(CLIENT_ID, clientId);
+        startActivity(intent);
+        finish();
+    }
 
 }

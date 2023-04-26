@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    tools:context=".clientActivities.ClientQueuedActivity">
+
+    <TextView
+        android:id="@+id/businessNameClientViewHeaderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="QMobility"
+        android:textColor="#FF6E40"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/queueNameSmallTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Queue"
+        android:textColor="#FF6E40"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/businessNameClientViewHeaderTextView"
+        app:layout_constraintStart_toStartOf="@+id/businessNameClientViewHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/businessNameClientViewHeaderTextView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/yourNumberCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/inner_layout_bg"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/queueNameSmallTextView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/inner_layout_bg">
+
+            <TextView
+                android:id="@+id/yourAssignedNumberClientViewPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Your Number: "
+                android:textColor="#FF6E40"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/yourAssignedNumberClientViewTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:text="10"
+                android:textColor="@android:color/holo_green_light"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/yourAssignedNumberClientViewPlaceHolder"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/assignedCounterClientViewPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="Counter: "
+                android:textColor="#FF6E40"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yourAssignedNumberClientViewPlaceHolder"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/assignedCounterClientViewTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="-"
+                android:textColor="#FFCA28"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/assignedCounterClientViewPlaceHolder"
+                app:layout_constraintStart_toEndOf="@id/assignedCounterClientViewPlaceHolder"
+                app:layout_constraintTop_toTopOf="@id/assignedCounterClientViewPlaceHolder" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/numberOnCallClientViewPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Number on call:"
+        android:textColor="#FF6E40"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourNumberCardView" />
+
+    <TextView
+        android:id="@+id/numberOnCallClientTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="6"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/numberOnCallClientViewPlaceHolder"
+        app:layout_constraintStart_toEndOf="@+id/numberOnCallClientViewPlaceHolder"
+        app:layout_constraintTop_toTopOf="@+id/numberOnCallClientViewPlaceHolder" />
+
+    <TextView
+        android:id="@+id/expectedTimeClientViewPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Expected Time:"
+        android:textColor="#FF6E40"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberOnCallClientViewPlaceHolder" />
+
+    <TextView
+        android:id="@+id/expectedTimeClientTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="0h 5 m 0s"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/expectedTimeClientViewPlaceHolder"
+        app:layout_constraintStart_toEndOf="@+id/expectedTimeClientViewPlaceHolder"
+        app:layout_constraintTop_toTopOf="@+id/expectedTimeClientViewPlaceHolder" />
+
+    <Button
+        android:id="@+id/exitQueueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:onClick="exitQueueButtonClicked"
+        android:text="Exit Queue"
+        android:textSize="24sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expectedTimeClientViewPlaceHolder" />
+</androidx.constraintlayout.widget.ConstraintLayout>
