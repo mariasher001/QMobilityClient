@@ -7,10 +7,12 @@ import static com.mariasher.qmobilityclient.clientActivities.ViewQueueDetailsAnd
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.mariasher.qmobilityclient.Utils.DateTimeUtils;
 import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
 import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
 import com.mariasher.qmobilityclient.database.BusinessInfo;
@@ -18,7 +20,9 @@ import com.mariasher.qmobilityclient.database.Client;
 import com.mariasher.qmobilityclient.database.Queue;
 import com.mariasher.qmobilityclient.databinding.ActivityClientQueuedBinding;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Map;
 
 public class ClientQueuedActivity extends AppCompatActivity {
 
@@ -74,9 +78,13 @@ public class ClientQueuedActivity extends AppCompatActivity {
         firebaseRealTimeUtils.getClientDetails(clientId, client -> {
             this.client = client;
             binding.yourAssignedNumberClientViewTextView.setText("" + client.getAssignedNumberInQueue());
+            binding.assignedCounterClientViewTextView.setText(client.getAssignedCounter());
+
+            //TODO Send notif. when your number is near and send notif when its your turn
+            //Run this is background
 
             if (client.getClientStatus().equals(ClientStatus.DEQUEUED.toString())) {
-                finish();
+                goToClientBusinessViewActivity();
             }
         });
     }
@@ -88,7 +96,7 @@ public class ClientQueuedActivity extends AppCompatActivity {
                 firstClient = clients.stream()
                         .filter(client1 -> client1.getClientStatus().equals(ClientStatus.QUEUED.toString()))
                         .min(Comparator.comparingInt(Client::getAssignedNumberInQueue))
-                        .get();
+                        .orElse(null);
             }
             int nextNumber = (firstClient != null ? firstClient.getAssignedNumberInQueue() : 1);
             binding.numberOnCallClientTextView.setText("" + (nextNumber - 1));
@@ -100,5 +108,33 @@ public class ClientQueuedActivity extends AppCompatActivity {
     }
 
     public void exitQueueButtonClicked(View view) {
+        client.setClientStatus(ClientStatus.DEQUEUED.toString());
+        client.setBusinessId("");
+        client.setQueueId("");
+        client.setAssignedNumberInQueue(0);
+        client.setAssignedCounter("");
+        client.setQueueExitTime(DateTimeUtils.convertDateAndTimeToString(LocalDateTime.now()));
+
+        firebaseRealTimeUtils.updateClient(client, isClientUpdated -> {
+            if (isClientUpdated) {
+                Toast.makeText(this, "You are Dequeued!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Map<String, Object> clientsInQueue = queue.getClientsInQueue();
+        clientsInQueue.remove(client.getClientId());
+        queue.setClientsInQueue(clientsInQueue);
+
+        firebaseRealTimeUtils.updateQueue(businessID, queue, isQueueUpdated -> {
+            if (isQueueUpdated) {
+                goToClientBusinessViewActivity();
+            }
+        });
+    }
+
+    private void goToClientBusinessViewActivity() {
+        Intent intent = new Intent(this, ClientBusinessViewActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -81,7 +81,7 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
                 firstClient = clients.stream()
                         .filter(client1 -> client1.getClientStatus().equals(ClientStatus.QUEUED.toString()))
                         .min(Comparator.comparingInt(Client::getAssignedNumberInQueue))
-                        .get();
+                        .orElse(null);
             }
             int nextNumber = (firstClient != null ? firstClient.getAssignedNumberInQueue() : 1);
             binding.nextNumberOnCallDetailsTextView.setText("" + nextNumber);
@@ -140,6 +140,7 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
         client.setQueueId(queueId);
         client.setClientStatus(ClientStatus.QUEUED.toString());
         client.setQueueEntryTime(DateTimeUtils.convertDateAndTimeToString(LocalDateTime.now()));
+        client.setQueueExitTime("");
         firebaseRealTimeUtils.getClientsInQueue(queue.getClientsInQueue(), clients -> {
             Client lastClient = null;
             if (!clients.isEmpty()) {

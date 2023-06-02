@@ -231,11 +231,12 @@ public class FirebaseRealTimeUtils {
         String businessId = snapshot.child("businessId").getValue(String.class);
         String queueId = snapshot.child("queueId").getValue(String.class);
         int assignedNumberInQueue = snapshot.child("assignedNumberInQueue").getValue(Integer.class);
+        String assignedCounter = snapshot.child("assignedCounter").getValue(String.class);
         String queueEntryTime = snapshot.child("queueEntryTime").getValue(String.class);
         String queueExitTime = snapshot.child("queueExitTime").getValue(String.class);
 
         return new Client(clientId, clientName, clientEmail, clientPhoneNumber, clientStatus,
-                businessId, queueId, assignedNumberInQueue, queueEntryTime, queueExitTime);
+                businessId, queueId, assignedNumberInQueue, assignedCounter, queueEntryTime, queueExitTime);
     }
 
     public void updateClient(Client client, Callback<Boolean> callback) {

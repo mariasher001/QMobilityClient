@@ -15,6 +15,7 @@ public class Client {
     private String businessId;
     private String queueId;
     private int assignedNumberInQueue;
+    private String assignedCounter;
     private String queueEntryTime;
     private String queueExitTime;
 
@@ -30,11 +31,12 @@ public class Client {
         this.businessId = "";
         this.queueId = "";
         this.assignedNumberInQueue = 0;
+        this.assignedCounter = "";
         this.queueEntryTime = "";
         this.queueExitTime = "";
     }
 
-    public Client(@NonNull String clientId, String clientName, String clientEmail, String clientPhoneNumber, String clientStatus, String businessId, String queueId, int assignedNumberInQueue, String queueEntryTime, String queueExitTime) {
+    public Client(@NonNull String clientId, String clientName, String clientEmail, String clientPhoneNumber, String clientStatus, String businessId, String queueId, int assignedNumberInQueue, String assignedCounter, String queueEntryTime, String queueExitTime) {
         this.clientId = clientId;
         this.clientName = clientName;
         this.clientEmail = clientEmail;
@@ -43,6 +45,7 @@ public class Client {
         this.businessId = businessId;
         this.queueId = queueId;
         this.assignedNumberInQueue = assignedNumberInQueue;
+        this.assignedCounter = assignedCounter;
         this.queueEntryTime = queueEntryTime;
         this.queueExitTime = queueExitTime;
     }
@@ -110,6 +113,14 @@ public class Client {
 
     public void setAssignedNumberInQueue(int assignedNumberInQueue) {
         this.assignedNumberInQueue = assignedNumberInQueue;
+    }
+
+    public String getAssignedCounter() {
+        return assignedCounter;
+    }
+
+    public void setAssignedCounter(String assignedCounter) {
+        this.assignedCounter = assignedCounter;
     }
 
     public String getQueueEntryTime() {
