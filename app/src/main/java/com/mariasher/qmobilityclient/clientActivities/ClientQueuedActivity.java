@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.mariasher.qmobilityclient.Utils.DateTimeUtils;
 import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
 import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
+import com.mariasher.qmobilityclient.Utils.NotificationUtils;
 import com.mariasher.qmobilityclient.database.BusinessInfo;
 import com.mariasher.qmobilityclient.database.Client;
 import com.mariasher.qmobilityclient.database.Queue;
@@ -80,8 +81,11 @@ public class ClientQueuedActivity extends AppCompatActivity {
             binding.yourAssignedNumberClientViewTextView.setText("" + client.getAssignedNumberInQueue());
             binding.assignedCounterClientViewTextView.setText(client.getAssignedCounter());
 
-            //TODO Send notif. when your number is near and send notif when its your turn
-            //Run this is background
+            if (client.getClientStatus().equals(ClientStatus.ONCALL.toString())) {
+                String message = "Please go to counter: " + client.getAssignedCounter();
+                NotificationUtils.showNotification(this, businessInfo.getBusinessName(), message);
+            }
+
 
             if (client.getClientStatus().equals(ClientStatus.DEQUEUED.toString())) {
                 goToClientBusinessViewActivity();

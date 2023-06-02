@@ -47,7 +47,9 @@ public class BusinessQueuesViewActivity extends AppCompatActivity {
         });
 
         firebaseRealTimeUtils.getQueuesFromBusiness(businessID, businessQueues -> {
-            binding.viewBusinessQueuesRecyclerView.setAdapter(new BusinessQueuesViewAdapter(businessQueues, businessID, this));
+            binding.viewBusinessQueuesRecyclerView.setAdapter(
+                    new BusinessQueuesViewAdapter(businessQueues, businessID, this, this)
+            );
         });
     }
 
@@ -60,6 +62,14 @@ public class BusinessQueuesViewActivity extends AppCompatActivity {
     public void logoutClientMenuItemClicked(@NonNull MenuItem item) {
         mAuth.signOut();
         Intent intent = new Intent(this, ClientLoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, ClientBusinessViewActivity.class);
         startActivity(intent);
         finish();
     }

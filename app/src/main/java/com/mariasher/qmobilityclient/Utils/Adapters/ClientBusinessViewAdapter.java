@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mariasher.qmobilityclient.R;
 import com.mariasher.qmobilityclient.clientActivities.BusinessQueuesViewActivity;
+import com.mariasher.qmobilityclient.clientActivities.ClientBusinessViewActivity;
 import com.mariasher.qmobilityclient.database.BusinessInfo;
 import com.mariasher.qmobilityclient.databinding.BusinessDataCardLayoutBinding;
 
@@ -21,10 +22,12 @@ public class ClientBusinessViewAdapter extends RecyclerView.Adapter<ClientBusine
     public static final String BUSINESS_ID = "businessID";
     private List<BusinessInfo> businessInfoList;
     private Context context;
+    private ClientBusinessViewActivity clientBusinessViewActivity;
 
-    public ClientBusinessViewAdapter(List<BusinessInfo> businessInfoList, Context context) {
+    public ClientBusinessViewAdapter(List<BusinessInfo> businessInfoList, Context context, ClientBusinessViewActivity clientBusinessViewActivity) {
         this.businessInfoList = businessInfoList;
         this.context = context;
+        this.clientBusinessViewActivity = clientBusinessViewActivity;
     }
 
     public class ClientBusinessViewHolder extends RecyclerView.ViewHolder {
@@ -65,6 +68,7 @@ public class ClientBusinessViewAdapter extends RecyclerView.Adapter<ClientBusine
         Intent intent = new Intent(context, BusinessQueuesViewActivity.class);
         intent.putExtra(BUSINESS_ID, businessID);
         context.startActivity(intent);
+        clientBusinessViewActivity.finish();
     }
 
 }

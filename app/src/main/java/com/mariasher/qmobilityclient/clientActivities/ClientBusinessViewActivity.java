@@ -47,7 +47,7 @@ public class ClientBusinessViewActivity extends AppCompatActivity {
 
         firebaseRealTimeUtils.getAllBusinesses(businesses -> {
             //TODO sort businesses by location
-            binding.viewBusinessesRecyclerView.setAdapter(new ClientBusinessViewAdapter(businesses, this));
+            binding.viewBusinessesRecyclerView.setAdapter(new ClientBusinessViewAdapter(businesses, this, this));
         });
     }
 

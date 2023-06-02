@@ -162,4 +162,13 @@ public class ViewQueueDetailsAndEnterActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, BusinessQueuesViewActivity.class);
+        intent.putExtra(BUSINESS_ID, businessID);
+        startActivity(intent);
+        finish();
+    }
+
 }
