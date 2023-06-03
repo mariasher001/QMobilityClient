@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
-    tools:context=".clientActivities.ClientBusinessViewActivity">
+    tools:context=".clientActivities.BusinessQueuesViewActivity">
 
     <TextView
-        android:id="@+id/qMobilityClientBusinessViewHeaderTextView"
+        android:id="@+id/businessNameQueueViewHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -21,19 +21,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/findYourBusinessHeaderTextView"
+        android:id="@+id/findYourQueueHeaderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find You Business"
+        android:text="Find You Queue"
         android:textColor="#FF6E40"
         android:textSize="16sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/qMobilityClientBusinessViewHeaderTextView"
-        app:layout_constraintStart_toStartOf="@+id/qMobilityClientBusinessViewHeaderTextView"
-        app:layout_constraintTop_toBottomOf="@+id/qMobilityClientBusinessViewHeaderTextView" />
+        app:layout_constraintEnd_toEndOf="@+id/businessNameQueueViewHeaderTextView"
+        app:layout_constraintStart_toStartOf="@+id/businessNameQueueViewHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/businessNameQueueViewHeaderTextView" />
 
     <SearchView
-        android:id="@+id/viewBusinessesClientBusinessViewSearchView"
+        android:id="@+id/businessNameQueueSearchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -43,10 +43,10 @@
         android:foregroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findYourBusinessHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/findYourQueueHeaderTextView" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/viewBusinessesRecyclerView"
+        android:id="@+id/viewBusinessQueuesRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewBusinessesClientBusinessViewSearchView" />
+        app:layout_constraintTop_toBottomOf="@+id/businessNameQueueSearchView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
