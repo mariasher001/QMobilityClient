@@ -1,5 +1,6 @@
 package com.mariasher.qmobilityclient.Utils;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class DateTimeUtils {
@@ -82,5 +83,28 @@ public class DateTimeUtils {
                 .append(" ")
                 .append(amPm);
         return resultDateTime.toString();
+    }
+
+    public static double calculateTimeDifference(LocalDateTime startTime, LocalDateTime endTime) {
+        Duration duration = Duration.between(startTime, endTime);
+        double seconds = duration.getSeconds();
+        double nanoseconds = duration.getNano() / 1_000_000_000.0;
+        return seconds + nanoseconds;
+    }
+
+    public static double calculateTimeDifference(String startTime, String endTime) {
+        LocalDateTime startTime1 = DateTimeUtils.convertStringToLocalDateTime(startTime);
+        LocalDateTime endTime1 = DateTimeUtils.convertStringToLocalDateTime(endTime);
+        Duration duration = Duration.between(startTime1, endTime1);
+        double seconds = duration.getSeconds();
+        double nanoseconds = duration.getNano() / 1_000_000_000.0;
+        return seconds + nanoseconds;
+    }
+
+    public static String formatTimeSecondsToMinutesAndHours(double seconds) {
+        int hours = (int) seconds / 3600;
+        int minutes = (int) (seconds % 3600) / 60;
+        int secs = (int) seconds % 60;
+        return String.format("%02dh %02dm %02ds", hours, minutes, secs);
     }
 }

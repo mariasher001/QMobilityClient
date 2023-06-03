@@ -16,6 +16,7 @@ import com.mariasher.qmobilityclient.Utils.DateTimeUtils;
 import com.mariasher.qmobilityclient.Utils.Enums.ClientStatus;
 import com.mariasher.qmobilityclient.Utils.FirebaseRealTimeUtils;
 import com.mariasher.qmobilityclient.Utils.NotificationUtils;
+import com.mariasher.qmobilityclient.Utils.interfaces.Callback;
 import com.mariasher.qmobilityclient.database.BusinessInfo;
 import com.mariasher.qmobilityclient.database.Client;
 import com.mariasher.qmobilityclient.database.Queue;
@@ -23,6 +24,7 @@ import com.mariasher.qmobilityclient.databinding.ActivityClientQueuedBinding;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 public class ClientQueuedActivity extends AppCompatActivity {
@@ -54,28 +56,33 @@ public class ClientQueuedActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseRealTimeUtils = new FirebaseRealTimeUtils(this);
 
-        setBusiness();
-        setQueueAndNumberOnCall();
-        setClient();
-        setExpectedTime();
+        setBusiness(isBusinessSet -> {
+            setClient(isClientSet -> {
+                setQueueAndNumberOnCallAndExpectedTime();
+            });
+        });
     }
 
-    private void setBusiness() {
+    private void setBusiness(Callback<Boolean> callback) {
         firebaseRealTimeUtils.getBusinessInfo(businessID, businessInfo -> {
             this.businessInfo = businessInfo;
             binding.businessNameClientViewHeaderTextView.setText(businessInfo.getBusinessName());
+            callback.onSuccess(true);
         });
     }
 
-    private void setQueueAndNumberOnCall() {
+    private void setQueueAndNumberOnCallAndExpectedTime() {
         firebaseRealTimeUtils.getSingleQueueData(queueId, businessID, queue -> {
             this.queue = queue;
             binding.queueNameSmallTextView.setText(queue.getQueueName());
-            setNumberOnCall();
+            firebaseRealTimeUtils.getClientsInQueue(queue.getClientsInQueue(), clients -> {
+                setNumberOnCall(clients);
+                setExpectedTime(clients);
+            });
         });
     }
 
-    private void setClient() {
+    private void setClient(Callback<Boolean> callback) {
         firebaseRealTimeUtils.getClientDetails(clientId, client -> {
             this.client = client;
             binding.yourAssignedNumberClientViewTextView.setText("" + client.getAssignedNumberInQueue());
@@ -90,25 +97,33 @@ public class ClientQueuedActivity extends AppCompatActivity {
             if (client.getClientStatus().equals(ClientStatus.DEQUEUED.toString())) {
                 goToClientBusinessViewActivity();
             }
+            callback.onSuccess(true);
         });
     }
 
-    private void setNumberOnCall() {
-        firebaseRealTimeUtils.getClientsInQueue(queue.getClientsInQueue(), clients -> {
-            Client firstClient = null;
-            if (!clients.isEmpty()) {
-                firstClient = clients.stream()
-                        .filter(client1 -> client1.getClientStatus().equals(ClientStatus.QUEUED.toString()))
-                        .min(Comparator.comparingInt(Client::getAssignedNumberInQueue))
-                        .orElse(null);
-            }
-            int nextNumber = (firstClient != null ? firstClient.getAssignedNumberInQueue() : 1);
-            binding.numberOnCallClientTextView.setText("" + (nextNumber - 1));
-        });
+    private void setNumberOnCall(List<Client> clients) {
+        Client firstClient = null;
+        if (!clients.isEmpty()) {
+            firstClient = clients.stream()
+                    .filter(client -> client.getClientStatus().equals(ClientStatus.QUEUED.toString()))
+                    .min(Comparator.comparingInt(Client::getAssignedNumberInQueue))
+                    .orElse(null);
+        }
+        int nextNumber = (firstClient != null ? firstClient.getAssignedNumberInQueue() : 1);
+        binding.numberOnCallClientTextView.setText("" + (nextNumber - 1));
     }
 
-    private void setExpectedTime() {
-        //TODO
+    private void setExpectedTime(List<Client> clients) {
+        if (queue.getTotalClients() > 0) {
+            double averageWaitingTime = (double) queue.getTotalClientWaitingTime() / queue.getTotalClients();
+            long queuedClients = clients.stream()
+                    .filter(client -> client.getClientStatus().equals(ClientStatus.QUEUED.toString()))
+                    .filter(client1 -> client1.getAssignedNumberInQueue()<=this.client.getAssignedNumberInQueue())
+                    .count();
+            double expectedTimeOfTurn = averageWaitingTime * queuedClients;
+            String formattedTime = DateTimeUtils.formatTimeSecondsToMinutesAndHours(expectedTimeOfTurn);
+            binding.expectedTimeClientTextView.setText(formattedTime);
+        }
     }
 
     public void exitQueueButtonClicked(View view) {
@@ -128,7 +143,7 @@ public class ClientQueuedActivity extends AppCompatActivity {
         Map<String, Object> clientsInQueue = queue.getClientsInQueue();
         clientsInQueue.remove(client.getClientId());
         queue.setClientsInQueue(clientsInQueue);
-
+        queue.setTotalClients(queue.getTotalClients()-1);
         firebaseRealTimeUtils.updateQueue(businessID, queue, isQueueUpdated -> {
             if (isQueueUpdated) {
                 goToClientBusinessViewActivity();
